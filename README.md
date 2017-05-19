@@ -1,6 +1,6 @@
 # cross-tab-channel
 
-This is a simple library for sending data between same-domain browser tabs. It uses storage events.
+This is a simple library for sending data between same-domain browser tabs. It uses storage events. There is also a [redux middleware](https://github.com/stutrek/cross-tab-middleware).
 
 ## Why this one?
 
