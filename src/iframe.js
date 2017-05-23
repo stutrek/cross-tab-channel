@@ -3,13 +3,17 @@ import CrossTab from './CrossTab';
 let channels = {};
 let pipes = {};
 
+function postMessage (payload) {
+	window.parent.postMessage(JSON.stringify(payload), '*');
+}
+
 function pipe (channelName, message) {
 	let payload = {
 		isCrossTab: true,
 		channel: channelName,
 		message: message
 	};
-	window.parent.postMessage(payload, '*');
+	postMessage(payload);
 }
 
 
@@ -20,7 +24,11 @@ function createPipe (channelName) {
 }
 
 window.addEventListener('message', function(e) {
-	var payload = e.data;
+	try {
+		var payload = JSON.parse(e.data);
+	} catch (e) {
+		return;
+	}
 	let channelName = payload.channel;
 
 	if (payload.isCrossTab) {
@@ -45,7 +53,7 @@ window.addEventListener('message', function(e) {
 });
 
 
-window.parent.postMessage({
+postMessage({
 	isCrossTabStartup: true
-}, '*');
+});
 

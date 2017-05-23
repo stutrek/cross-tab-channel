@@ -4,8 +4,16 @@ var queue = [];
 
 var channels = {};
 
+function postMessage(data) {
+	iframe.contentWindow.postMessage(JSON.stringify(data), '*');
+}
+
 window.addEventListener('message', function(e) {
-	var payload = e.data;
+	try {
+		var payload = JSON.parse(e.data);
+	} catch (e) {
+		return;
+	}
 
 	if (payload.isCrossTab) {
 		let channelName = payload.channel;
@@ -16,10 +24,10 @@ window.addEventListener('message', function(e) {
 		iframeLoaded = true;
 		queue.forEach(entry => {
 			if (entry.method === 'addChannel') {
-				iframe.contentWindow.postMessage({
+				postMessage({
 					isCrossTabAdd: true,
 					channel: entry.args[0]
-				}, '*');
+				});
 			} else {
 				channels[entry.channel][entry.method].apply(channels[entry.channel], entry.args);
 			}
@@ -46,10 +54,10 @@ class Channel {
 
 		if (typeof window !== 'undefined') {
 			if (iframeLoaded) {
-				iframe.contentWindow.postMessage({
+				postMessage({
 					isCrossTabAdd: true,
 					channel: stringIdentifier
-				}, '*');
+				});
 			} else {
 				queue.push({
 					method: 'addChannel',
@@ -71,11 +79,11 @@ class Channel {
 
 	emit = (data) => {
 		if (iframeLoaded) {
-			iframe.contentWindow.postMessage({
+			postMessage({
 				isCrossTab: true,
 				channel: this.id,
 				message: data
-			}, '*');
+			});
 		} else {
 			queue.push({
 				channel: this.id,
@@ -92,6 +100,9 @@ Channel.createIframe = function (url) {
 	iframe.style.position = 'absolute';
 	iframe.style.pointerEvents = 'none';
 	iframe.style.zIndex = '-1';
+	iframe.style.height = 1;
+	iframe.style.width = 1;
+	iframe.style.opacity = 0;
 
 	document.body.appendChild(iframe);
 
