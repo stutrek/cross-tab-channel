@@ -1,0 +1,11 @@
+<!doctype html>
+	<head>
+		<title>Cross Tab Channel iFrame</title>
+	<script type="text/javascript">!function(e,t){"object"==typeof exports&&"object"==typeof module?module.exports=t():"function"==typeof define&&define.amd?define("CrossTabIframe",[],t):"object"==typeof exports?exports.CrossTabIframe=t():e.CrossTabIframe=t()}(this,function(){return function(e){function t(s){if(n[s])return n[s].exports;var r=n[s]={exports:{},id:s,loaded:!1};return e[s].call(r.exports,r,r.exports,t),r.loaded=!0,r.exports}var n={};return t.m=e,t.c=n,t.p="",t(0)}([function(e,t,n){"use strict";function s(e){return e&&e.__esModule?e:{default:e}}function r(e){window.parent.postMessage(JSON.stringify(e),"*")}function i(e,t){var n={isCrossTab:!0,channel:e,message:t};r(n)}function o(e){return function(t){i(e,t)}}var a=n(1),f=s(a),u={},c={};window.addEventListener("message",function(e){try{var t=JSON.parse(e.data)}catch(e){return}var n=t.channel;if(t.isCrossTab){var s=t.message;u[n].emit(s)}if(t.isCrossTabAdd&&!u[n]){u[n]=new f.default(n);var r=o(n);c[n]=r,u[n].listen(r)}t.isCrossTabRemove&&(u[n].remove(c[n]),delete u[n])}),r({isCrossTabStartup:!0})},function(e,t){"use strict";function n(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")}var s=Math.random(),r=function e(t){var r=this;n(this,e),this.listen=function(e){r.listeners.indexOf(e)===-1&&r.listeners.push(e)},this.remove=function(e){r.listeners=r.listeners.filter(function(t){return t!==e})},this.emit=function(e){var t={origin:s,data:e};localStorage.setItem("cross-tab-"+r.id,JSON.stringify(t)),setTimeout(function(){localStorage.removeItem("cross-tab-"+r.id)},0)},this.id=t,this.listeners=[],"undefined"!=typeof window&&window.addEventListener("storage",function(e){if(e.newValue&&e.key==="cross-tab-"+r.id){var t=JSON.parse(e.newValue);t.origin!==s&&r.listeners.forEach(function(e){e(t.data)})}})};e.exports=r}])});
+//# sourceMappingURL=CrossTabIframe.js.map</script></head>
+	<body>
+	<div>Nothing to see here...</div>
+	</body>
+	<script type="text/javascript">
+	</script>
+</html>

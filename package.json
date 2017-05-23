@@ -1,7 +1,7 @@
 {
   "name": "cross-tab-channel",
   "version": "1.0.0",
-  "main": "CrossTab.js",
+  "main": "dist/CrossTab.js",
   "repository": "https://stutrek@github.com/stutrek/cross-tab-channel.git",
   "author": "Stu Kabakoff <stuart@compstak.com>",
   "license": "MIT",

@@ -9,7 +9,7 @@ module.exports = {
 		CrossDomain: __dirname + '/src/CrossDomain.js'
 	},
 	output: {
-		path: __dirname + '/build',
+		path: __dirname + '/dist',
 		filename: '[name].js',
 		libraryTarget: 'umd',
 		library: '[name]',
