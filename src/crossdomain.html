@@ -1,0 +1,32 @@
+<!doctype html>
+	<head>
+		<title>Cross Domain Tab Channel Testing Environment</title>
+	</head>
+	<body>
+
+		Copy this into the console.
+
+		<pre>
+channel.emit('hello!');
+channel.emit({type: 'HELLO'});
+channel.emit(1);
+		</pre>
+		<script type="text/javascript">
+
+			var url;
+			if (window.location.hostname === 'localhost') {
+				url = '//127.0.0.1:' + window.location.port + '/iframe.html';
+			} else {
+				url = '//localhost:' + window.location.port + '/iframe.html';
+			}
+
+			CrossDomain.createIframe(url);
+
+			window.channel = new CrossDomain('test');
+
+			window.channel.listen(function (event) {
+				console.log('received', event);
+			});
+		</script>
+</body>
+</html>

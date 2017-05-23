@@ -1,4 +1,4 @@
-module.exports = class Channel {
+class Channel {
 	constructor (stringIdentifier) {
 		this.id = stringIdentifier;
 		this.listeners = [];
@@ -34,4 +34,6 @@ module.exports = class Channel {
 			localStorage.removeItem('cross-tab-' + this.id);
 		}, 0);
 	}
-};
+}
+
+module.exports = Channel;

@@ -1,0 +1,11 @@
+<!doctype html>
+	<head>
+		<title>Cross Tab Channel iFrame</title>
+	<script type="text/javascript">!function(e,t){"object"==typeof exports&&"object"==typeof module?module.exports=t():"function"==typeof define&&define.amd?define("CrossTabIframe",[],t):"object"==typeof exports?exports.CrossTabIframe=t():e.CrossTabIframe=t()}(this,function(){return function(e){function t(s){if(n[s])return n[s].exports;var o=n[s]={exports:{},id:s,loaded:!1};return e[s].call(o.exports,o,o.exports,t),o.loaded=!0,o.exports}var n={};return t.m=e,t.c=n,t.p="",t(0)}([function(e,t,n){"use strict";function s(e){return e&&e.__esModule?e:{default:e}}function o(e,t){var n={isCrossTab:!0,channel:e,message:t};window.parent.postMessage(n,"*")}function r(e){return function(t){o(e,t)}}var i=n(1),a=s(i),f={},u={};window.addEventListener("message",function(e){var t=e.data,n=t.channel;if(t.isCrossTab){var s=t.message;f[n].emit(s)}if(t.isCrossTabAdd&&!f[n]){f[n]=new a.default(n);var o=r(n);u[n]=o,f[n].listen(o)}t.isCrossTabRemove&&(f[n].remove(u[n]),delete f[n])}),window.parent.postMessage({isCrossTabStartup:!0},"*")},function(e,t){"use strict";function n(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")}var s=function e(t){var s=this;n(this,e),this.listen=function(e){s.listeners.indexOf(e)===-1&&s.listeners.push(e)},this.remove=function(e){s.listeners=s.listeners.filter(function(t){return t!==e})},this.emit=function(e){localStorage.setItem("cross-tab-"+s.id,JSON.stringify(e)),setTimeout(function(){localStorage.removeItem("cross-tab-"+s.id)},0)},this.id=t,this.listeners=[],"undefined"!=typeof window&&window.addEventListener("storage",function(e){if(null!==e.newValue&&e.key==="cross-tab-"+s.id){var t=JSON.parse(e.newValue);s.listeners.forEach(function(e){e(t)})}})};e.exports=s}])});
+//# sourceMappingURL=CrossTabIframe.js.map</script></head>
+	<body>
+	<div>Nothing to see here...</div>
+	</body>
+	<script type="text/javascript">
+	</script>
+</html>

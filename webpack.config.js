@@ -1,13 +1,18 @@
 var webpack = require('webpack');
+var HtmlWebpackPlugin = require('html-webpack-plugin');
+var HtmlWebpackInlineSourcePlugin = require('html-webpack-inline-source-plugin');
 
 module.exports = {
 	entry: {
-		CrossTab: __dirname + '/index.js',
+		CrossTab: __dirname + '/src/index.js',
+		CrossTabIframe: __dirname + '/src/iframe.js',
+		CrossDomain: __dirname + '/src/CrossDomain.js'
 	},
 	output: {
+		path: __dirname + '/build',
 		filename: '[name].js',
 		libraryTarget: 'umd',
-		library: 'CrossTab',
+		library: '[name]',
 		umdNamedDefine: true
 	},
 	module: {
@@ -21,6 +26,26 @@ module.exports = {
 		}]
 	},
 	plugins: [
+		new HtmlWebpackPlugin({
+			filename: 'iframe.html',
+			template: __dirname + '/src/iframe.html',
+			inlineSource: '.(js|css)$',
+			inject: 'head',
+			chunks: ['CrossTabIframe']
+		}),
+		new HtmlWebpackPlugin({
+			filename: 'test.html',
+			template: __dirname + '/src/index.html',
+			inject: 'head',
+			chunks: ['CrossTab']
+		}),
+		new HtmlWebpackPlugin({
+			filename: 'crossDomain.html',
+			template: __dirname + '/src/crossDomain.html',
+			inject: 'head',
+			chunks: ['CrossDomain']
+		}),
+		new HtmlWebpackInlineSourcePlugin(),
 		new webpack.optimize.UglifyJsPlugin()
 	],
 	devtool: '#sourcemap',
