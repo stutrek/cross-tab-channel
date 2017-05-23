@@ -1,3 +1,5 @@
+let windowId = Math.random();
+
 class Channel {
 	constructor (stringIdentifier) {
 		this.id = stringIdentifier;
@@ -5,14 +7,16 @@ class Channel {
 
 		if (typeof window !== 'undefined') {
 			window.addEventListener('storage', (event) => {
-				if (event.newValue === null) {
+				if (!event.newValue) {
 					return;
 				}
 				if (event.key === 'cross-tab-' + this.id) {
-					let eventData = JSON.parse(event.newValue);
-					this.listeners.forEach(listener => {
-						listener(eventData);
-					});
+					let payload = JSON.parse(event.newValue);
+					if (payload.origin !== windowId) {
+						this.listeners.forEach(listener => {
+							listener(payload.data);
+						});
+					}
 				}
 			});
 		}
@@ -29,7 +33,11 @@ class Channel {
 	}
 
 	emit = (data) => {
-		localStorage.setItem('cross-tab-' + this.id, JSON.stringify(data));
+		var payload = {
+			origin: windowId,
+			data
+		};
+		localStorage.setItem('cross-tab-' + this.id, JSON.stringify(payload));
 		setTimeout(() => {
 			localStorage.removeItem('cross-tab-' + this.id);
 		}, 0);
