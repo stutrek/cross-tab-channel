@@ -3,8 +3,13 @@ import CrossTab from './CrossTab';
 let channels = {};
 let pipes = {};
 
+var trustedDomain = window.trustedDomain;
+if (trustedDomain.indexOf('//') === 0) {
+	trustedDomain = window.location.protocol + trustedDomain;
+}
+
 function postMessage (payload) {
-	window.parent.postMessage(JSON.stringify(payload), '*');
+	window.parent.postMessage(JSON.stringify(payload), trustedDomain);
 }
 
 function pipe (channelName, message) {
@@ -24,6 +29,9 @@ function createPipe (channelName) {
 }
 
 window.addEventListener('message', function(e) {
+	if (e.origin !== trustedDomain) {
+		return;
+	}
 	try {
 		var payload = JSON.parse(e.data);
 	} catch (e) {

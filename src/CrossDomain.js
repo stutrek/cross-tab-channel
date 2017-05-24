@@ -1,11 +1,12 @@
 var iframe = null;
+var iframeDomain = null;
 var iframeLoaded = false;
 var queue = [];
 
 var channels = {};
 
 function postMessage(data) {
-	iframe.contentWindow.postMessage(JSON.stringify(data), '*');
+	iframe.contentWindow.postMessage(JSON.stringify(data), iframeDomain);
 }
 
 window.addEventListener('message', function(e) {
@@ -95,6 +96,10 @@ class Channel {
 }
 
 Channel.createIframe = function (url) {
+	if (url.indexOf('//') === 0) {
+		url = window.location.protocol + url;
+	}
+	iframeDomain = /https?:\/\/[^/]+/.exec(url)[0];
 	iframe = document.createElement('iframe');
 	iframe.src = url;
 	iframe.style.position = 'absolute';
@@ -103,6 +108,7 @@ Channel.createIframe = function (url) {
 	iframe.style.height = 1;
 	iframe.style.width = 1;
 	iframe.style.opacity = 0;
+
 
 	document.body.appendChild(iframe);
 

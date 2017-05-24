@@ -36,7 +36,7 @@ You may emit messages of any type, as long as they can be JSON encoded.
 
 ### Cross Domain
 
-This is more tricky because the browser won't send storage events across domains. It needs to load an iframe hosted on your domain so the library can postMessages to and from it. Luckilly, [that iframe](./dist/iframe.html) has already been made and is entirely self contained.
+This is more tricky because the browser won't send storage events across domains. It needs to load an iframe hosted on your domain so the library can postMessages to and from it. Luckilly, [that iframe](./dist/iframe.html) has already been made and can be hosted statically after changing the `trustedDomain` variable to the domain you wish to share data with.
 
 ```javascript
 import CrossDomain from 'cross-tab-channel/dist/CrossDomain';
@@ -58,6 +58,13 @@ channel.emit({
 
 channel.remove(anyPreviouslyAppliedListener);
 ```
+
+#### Cross Domain Security
+
+If you are not in control of all domains this will be used on, anyone running JavaScript on the receiving site, including advertisers and trackers, can intercept messages. As the library is now, third parties could potentially send fake events.
+
+* **Do not send privacy critical data**, such as passwords, credit card numbers, or authorization tokens across domains.
+* **Do not make the `trustedDomain` infinitely configurable** with a query or path paramter when serving the iframe HTML unless you want to open up your messages to potentially evil third parties.
 
 ## Testing
 
