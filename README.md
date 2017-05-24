@@ -14,7 +14,8 @@ There are a few of these, but none were what I wanted.
 
 
 ### Same Domain
-To use this library you listen to changes to a channel. A channel is identified with a string.
+
+Use this library to listen to messages on a channel. Strings identify channels.
 
 ```javascript
 import CrossTab from 'cross-tab-channel';
@@ -36,7 +37,7 @@ You may emit messages of any type, as long as they can be JSON encoded.
 
 ### Cross Domain
 
-This is more tricky because the browser won't send storage events across domains. It needs to load an iframe hosted on your domain so the library can postMessages to and from it. Luckilly, [that iframe](./dist/iframe.html) has already been made and can be hosted statically after changing the `trustedDomain` variable to the domain you wish to share data with.
+This is more tricky because the browser won't send storage events across domains. It needs to load an iframe hosted on your domain so the library can postMessages to and from it. Luckilly, [that iframe](./dist/iframe.html) has already been made and can be hosted statically after changing the `trustedDomain` variable to the domain you wish to share messages with.
 
 ```javascript
 import CrossDomain from 'cross-tab-channel/dist/CrossDomain';
@@ -61,10 +62,10 @@ channel.remove(anyPreviouslyAppliedListener);
 
 #### Cross Domain Security
 
-If you are not in control of all domains this will be used on, anyone running JavaScript on the receiving site, including advertisers and trackers, can intercept messages. As the library is now, third parties could potentially send fake events.
+If you are not in control of all domains you are using, anyone running JavaScript on the receiving site can intercept messages, including advertisers and trackers. Currently there is no validation to ensure third parties aren't sending fake events.
 
-* **Do not send privacy critical data**, such as passwords, credit card numbers, or authorization tokens across domains.
-* **Do not make the `trustedDomain` infinitely configurable** with a query or path paramter when serving the iframe HTML unless you want to open up your messages to potentially evil third parties.
+* **Do not send privacy critical data**, such as passwords, credit card numbers, or secret tokens across domains.
+* **Do not make the `trustedDomain` in the iframe infinitely configurable.** If a potentially evil third party can change that trusted domain they can read your messages.
 
 ## Testing
 
